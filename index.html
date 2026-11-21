@@ -1,0 +1,521 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Crop Recommendation System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f6f1;
+            color: #26352a;
+        }
+
+        header {
+            background: #17643b;
+            color: white;
+            text-align: center;
+            padding: 35px 15px;
+        }
+
+        header h1 {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        header p {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 35px auto;
+            padding: 0 18px;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        }
+
+        h2 {
+            color: #17643b;
+            margin-bottom: 18px;
+            font-size: 21px;
+        }
+
+        .description {
+            color: #657568;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .demo-label {
+            display: inline-block;
+            background: #e1f2e5;
+            color: #17643b;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 18px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .value-box {
+            background: #f3f8f3;
+            border: 1px solid #d8e6d9;
+            border-radius: 9px;
+            padding: 17px;
+        }
+
+        .value-box label {
+            display: block;
+            color: #526657;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .value-box strong {
+            color: #17643b;
+            font-size: 22px;
+        }
+
+        .note {
+            color: #778579;
+            font-size: 12px;
+            line-height: 1.6;
+            margin-top: 18px;
+        }
+
+        button {
+            width: 100%;
+            background: #17643b;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 24px;
+        }
+
+        button:hover {
+            background: #104d2d;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #status {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .success {
+            color: #17643b;
+        }
+
+        .error {
+            color: #c62828;
+        }
+
+        #result {
+            display: none;
+            border-top: 5px solid #23824a;
+        }
+
+        .crop-name {
+            font-size: 32px;
+            font-weight: bold;
+            color: #17643b;
+            margin: 12px 0;
+            text-transform: capitalize;
+        }
+
+        .probability {
+            color: #536457;
+            margin-bottom: 25px;
+            font-size: 15px;
+        }
+
+        .recommendation {
+            display: flex;
+            justify-content: space-between;
+            background: #f1f7f1;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+
+        .assessment {
+            background: #f1f7f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
+        .warning {
+            background: #fff5dc;
+            border-left: 4px solid #e0a52d;
+            padding: 13px;
+            margin-top: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #758276;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        @media(max-width: 550px) {
+            header h1 {
+                font-size: 23px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🌱 Crop Recommendation System</h1>
+
+        <p>
+            Intelligent Crop Prediction Using Machine Learning
+        </p>
+
+        <p>
+            Powered by Random Forest Algorithm
+        </p>
+    </header>
+
+
+    <main class="container">
+
+        <section class="card">
+
+            <h2>Farm Soil & Climate Information</h2>
+
+            <span class="demo-label">
+                FIXED DEMONSTRATION DATA
+            </span>
+
+            <p class="description">
+                The system uses predefined sample soil and climate
+                values to demonstrate crop prediction. No manual
+                data entry is required.
+            </p>
+
+            <div class="grid">
+
+                <div class="value-box">
+                    <label>Nitrogen (N)</label>
+                    <strong>67</strong>
+                </div>
+
+                <div class="value-box">
+                    <label>Phosphorus (P)</label>
+                    <strong>54</strong>
+                </div>
+
+                <div class="value-box">
+                    <label>Potassium (K)</label>
+                    <strong>34</strong>
+                </div>
+
+                <div class="value-box">
+                    <label>Temperature</label>
+                    <strong>25 °C</strong>
+                </div>
+
+                <div class="value-box">
+                    <label>Humidity</label>
+                    <strong>18%</strong>
+                </div>
+
+                <div class="value-box">
+                    <label>Rainfall</label>
+                    <strong>200 mm</strong>
+                </div>
+
+            </div>
+
+            <p class="note">
+                These are illustrative sample values for demonstration,
+                not actual measurements from a farm.
+            </p>
+
+            <button id="predictBtn" onclick="predictCrop()">
+                🌾 Predict Suitable Crop
+            </button>
+
+            <p id="status"></p>
+
+        </section>
+
+
+        <section class="card" id="result">
+
+            <h2>🌿 Crop Recommendation Result</h2>
+
+            <p>Recommended Crop</p>
+
+            <div class="crop-name" id="predictedCrop"></div>
+
+            <p class="probability" id="probability"></p>
+
+            <h3>Top 3 Crop Recommendations</h3>
+
+            <div id="topCrops"></div>
+
+            <div class="assessment">
+                <h3>Model Assessment</h3>
+                <p id="anomalyStatus"></p>
+            </div>
+
+            <div id="warnings"></div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        Crop Recommendation System
+        <br>
+        Random Forest Machine Learning Model
+        <br>
+        Academic Project Demonstration
+    </footer>
+
+
+    <script>
+
+        // FastAPI address
+        const API_URL = window.location.origin;
+
+
+        // Fixed sample input values
+        const inputData = {
+
+            N: 67,
+            P: 54,
+            K: 34,
+            temperature: 25,
+            humidity: 18,
+            rainfall: 200
+
+        };
+
+
+        async function predictCrop() {
+
+            const button =
+                document.getElementById("predictBtn");
+
+            const status =
+                document.getElementById("status");
+
+            const result =
+                document.getElementById("result");
+
+            button.disabled = true;
+
+            status.className = "";
+
+            status.textContent =
+                "Analyzing sample data... Please wait.";
+
+            result.style.display = "none";
+
+
+            try {
+
+                const response = await fetch(
+                    API_URL + "/predict",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify(inputData)
+                    }
+                );
+
+
+                const data = await response.json();
+
+
+                if (!response.ok) {
+                    throw new Error(
+                        typeof data.detail === "string"
+                            ? data.detail
+                            : JSON.stringify(data.detail)
+                    );
+                }
+
+
+                if (data.status !== "success") {
+                    throw new Error("Prediction was unsuccessful.");
+                }
+
+
+                // Predicted crop
+                document.getElementById("predictedCrop")
+                    .textContent = data.predicted_crop;
+
+
+                // Model probability
+                document.getElementById("probability")
+                    .textContent =
+                    "Model Probability: " +
+                    data.model_probability + "%";
+
+
+                // Top 3 recommendations
+                const topCrops =
+                    document.getElementById("topCrops");
+
+                topCrops.innerHTML = "";
+
+
+                data.top_3_recommendations.forEach(item => {
+
+                    const div =
+                        document.createElement("div");
+
+                    div.className = "recommendation";
+
+
+                    const name =
+                        document.createElement("strong");
+
+                    name.textContent = item.crop;
+
+
+                    const score =
+                        document.createElement("span");
+
+                    score.textContent =
+                        item.model_probability + "%";
+
+
+                    div.appendChild(name);
+
+                    div.appendChild(score);
+
+                    topCrops.appendChild(div);
+
+                });
+
+
+                // Anomaly assessment
+                document.getElementById("anomalyStatus")
+                    .textContent = data.anomaly_detected
+                    ? "Unusual sample input combination detected. Please verify the sample data."
+                    : "No unusual sample input combination detected.";
+
+
+                // Warnings
+                const warnings =
+                    document.getElementById("warnings");
+
+                warnings.innerHTML = "";
+
+
+                if (data.warnings && data.warnings.length > 0) {
+
+                    data.warnings.forEach(message => {
+
+                        const div =
+                            document.createElement("div");
+
+                        div.className = "warning";
+
+                        div.textContent = message;
+
+                        warnings.appendChild(div);
+
+                    });
+
+                }
+
+
+                result.style.display = "block";
+
+                status.className = "success";
+
+                status.textContent =
+                    "Crop prediction completed successfully!";
+
+
+                result.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            }
+
+
+            catch(error) {
+
+                status.className = "error";
+
+                status.textContent =
+                    "Prediction failed: " + error.message;
+
+            }
+
+
+            finally {
+
+                button.disabled = false;
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
